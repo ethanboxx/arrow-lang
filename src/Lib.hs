@@ -1,5 +1,6 @@
 module Lib
     ( tokenizeSentence
+    , tokenizeWord
     )
 where
 
@@ -29,9 +30,6 @@ tokenizeWord x = if (T.length x) == 0
                 then Just ArrowLeft
                 else if isNextWord "->" then Just ArrowRight else Nothing
     where isNextWord = isNextWordOf x
-
-test = isNextWordOf "if afjkasd" "if"
-tesdt = tokenizeWord "if afjkasd"
 
 
 isNextWordOf :: T.Text -> T.Text -> Bool
