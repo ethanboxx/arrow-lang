@@ -14,7 +14,7 @@ data WordWithEnd =  WordWithEnd {word::T.Text, endSymbol:: T.Text }
 
 
 separateSymbols :: T.Text -> [T.Text]
-separateSymbols x =   (filter (/= "") . filter (/= " ") . moveOut  "(" . moveOut  ")" . moveOut  " " . moveOut  "if" . moveOut  "==") ["if (T.length x) == 0"]
+separateSymbols x =   (filter (/= "") . filter (/= " ") . moveOut  "(" . moveOut  ")" . moveOut  " " . moveOut  "if" . moveOut  "==") [x]
 
 addInside :: T.Text -> [T.Text] -> [T.Text]
 addInside with l@(x:xs) = x:(if length l /= 1 then (with:(addInside with xs))else addInside with xs)
