@@ -11,6 +11,8 @@ separateSymbols x =
     . filter (/= " ")
     . moveOut "("
     . moveOut ")"
+    . moveOut "<"
+    . moveOut ">"
     . moveOut " "
     . moveOut "if"
     )
