@@ -19,9 +19,9 @@ separateSymbols x =
 addInside :: T.Text -> [T.Text] -> [T.Text]
 addInside with l@(x : xs) =
   x
-    : (if length l /= 1 then (with : (addInside with xs)) else addInside with xs
+    : (if length l /= 1 then with : addInside with xs else addInside with xs
       )
 addInside with [] = []
 
 moveOut :: T.Text -> [T.Text] -> [T.Text]
-moveOut x t = concat (map (addInside x . T.splitOn x) t)
+moveOut x t = concatMap (addInside x . T.splitOn x) t
