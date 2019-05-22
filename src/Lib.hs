@@ -1,7 +1,6 @@
 module Lib
-  ( 
-  tokenize
+  ( tokenize
   )
 where
 
-import Tokenize
+import           Tokenize
