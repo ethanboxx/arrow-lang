@@ -6,7 +6,7 @@ where
 import qualified Data.Text               as T
 import           SeparateSymbols
 
-data Token = Word T.Text | LeftBracket | RightBracket | If | ArrowRight | ArrowLeft deriving (Show)
+data Token = Word T.Text | LeftBracket | RightBracket | If | ArrowRight | ArrowLeft | Next deriving (Show)
 
 tokenize :: T.Text -> [Token]
 tokenize = tokenizeSymbols . separateSymbols
@@ -19,5 +19,6 @@ tokenizeSymbols = map $
     "if" -> If
     "<" -> ArrowLeft
     ">" -> ArrowRight
+    "\n" | ";" -> Next
     _    -> Word x
   

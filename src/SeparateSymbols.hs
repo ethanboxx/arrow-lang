@@ -15,6 +15,8 @@ separateSymbols x =
     . moveOut ">"
     . moveOut " "
     . moveOut "if"
+    . moveOut "\n"
+    . moveOut ";"
     )
     [x]
 
