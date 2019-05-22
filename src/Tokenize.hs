@@ -19,6 +19,7 @@ tokenizeSymbols = map $
     "if" -> If
     "<" -> ArrowLeft
     ">" -> ArrowRight
-    "\n" | ";" -> Next
+    "\n" -> Next
+    ";" -> Next
     _    -> Word x
   
