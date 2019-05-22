@@ -1,24 +1,23 @@
 module Lib
-    ( 
-  separateSymbols,
-     moveOut
-    
-    )
+  ( separateSymbols
+  , tokenize
+  )
 where
 
-import qualified Data.Text.Lazy               as T
 
+import           SeparateSymbols
+import qualified Data.Text                     as T
 
+data Token = Word T.Text | LeftBracket | RightBracket | If deriving (Show)
 
-data WordWithEnd =  WordWithEnd {word::T.Text, endSymbol:: T.Text }
+tokenize :: T.Text -> [Token]
+tokenize = tokenizeSymbols . separateSymbols
 
-
-separateSymbols :: T.Text -> [T.Text]
-separateSymbols x =   (filter (/= "") . filter (/= " ") . moveOut  "(" . moveOut  ")" . moveOut  " " . moveOut  "if" . moveOut  "==") [x]
-
-addInside :: T.Text -> [T.Text] -> [T.Text]
-addInside with l@(x:xs) = x:(if length l /= 1 then (with:(addInside with xs))else addInside with xs)
-addInside with [] = []
-
-moveOut:: T.Text -> [T.Text] -> [T.Text]
-moveOut x t = concat (map ( addInside x . T.splitOn x) t)
+tokenizeSymbols :: [T.Text] -> [Token]
+tokenizeSymbols = map
+  (\x -> case x of
+    "("  -> LeftBracket
+    ")"  -> RightBracket
+    "if" -> If
+    _    -> Word x
+  )
