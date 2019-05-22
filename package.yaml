@@ -28,6 +28,7 @@ dependencies:
 - process
 - terminal-size
 - lens
+- split
 
 default-extensions:
 - OverloadedStrings
