@@ -3,4 +3,4 @@ module Main where
 import           Lib
 
 main :: IO ()
-main = print (tokenizeWord "if kladjf")
+main = print (separateSymbols "if kladjf")
