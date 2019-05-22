@@ -12,13 +12,16 @@ tokenize :: T.Text -> [Token]
 tokenize = tokenizeSymbols . separateSymbols
 
 tokenizeSymbols :: [T.Text] -> [Token]
-tokenizeSymbols = map $ \x -> case x of
-  "("  -> LeftBracket
-  ")"  -> RightBracket
-  "if" -> If
-  "<"  -> ArrowLeft
-  ">"  -> ArrowRight
-  "\n" -> Next
-  ";"  -> Next
-  _    -> Word x
+tokenizeSymbols = map tokenizeSymbol
+
+
+tokenizeSymbol :: T.Text -> Token
+tokenizeSymbol "("  = LeftBracket
+tokenizeSymbol ")"  = RightBracket
+tokenizeSymbol "if" = If
+tokenizeSymbol "<"  = ArrowLeft
+tokenizeSymbol ">"  = ArrowRight
+tokenizeSymbol "\n" = Next
+tokenizeSymbol ";"  = Next
+tokenizeSymbol x    = Word x
 
