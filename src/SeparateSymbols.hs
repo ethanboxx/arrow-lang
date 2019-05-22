@@ -24,4 +24,4 @@ addInside with l@(x : xs) =
 addInside _ [] = []
 
 moveOut :: T.Text -> [T.Text] -> [T.Text]
-moveOut x t = concatMap (addInside x . T.splitOn x) t
+moveOut x = concatMap (addInside x . T.splitOn x)
