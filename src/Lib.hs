@@ -4,5 +4,4 @@ module Lib
   )
 where
 
-import qualified Data.Text                     as T
 import Tokenize
