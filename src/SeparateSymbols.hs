@@ -7,15 +7,13 @@ import qualified Data.Text                     as T
 
 separateSymbols :: T.Text -> [T.Text]
 separateSymbols x =
-  ( filter (/= "")
-    . filter (/= " ")
-    . moveOut " "
-    . moveOut "<-"
-    . moveOut "if"
-    . moveOut "\n"
-    . moveOut ";"
-    )
-    [x]
+  filter (/= "")
+    $ filter (/= " ")
+    $ moveOut " "
+    $ moveOut "<-"
+    $ moveOut "if"
+    $ moveOut "\n"
+    $ moveOut ";" [x]
 
 addInside :: T.Text -> [T.Text] -> [T.Text]
 addInside with l@(x : xs) =
