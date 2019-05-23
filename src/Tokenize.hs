@@ -1,19 +1,22 @@
 module Tokenize
   ( tokenize
-  , Token(VarAssignmentT, Word)
+  , Token(VarAssignmentT, Word, Function)
   )
 where
 
 import qualified Data.Text                     as T
-import           Text.Read                    
+import           Text.Read
+import           Data.Char
 import           SeparateSymbols
 
-data Token = Word T.Text | IntT  Integer |  If | VarAssignmentT | Next deriving (Show)
+data Token = Function Function | Word T.Text | IntT  Integer |  If | VarAssignmentT | Next deriving (Show)
 
-data BuiltInFunc = Inline | Normal
+data Function = BuiltIn BuiltInFunc | Other T.Text deriving (Show)
 
-data BuiltInFuncNormal = Input | Output
-data BuiltInFuncInline = Add | Multiply | Divide | Subtract
+data BuiltInFunc = Inline BuiltInFuncInline | Normal BuiltInFuncNormal deriving (Show)
+
+data BuiltInFuncNormal = Input | Output deriving (Show)
+data BuiltInFuncInline = Add | Subtract | Multiply | Divide | Or | And | Not  deriving (Show)
 
 tokenize :: T.Text -> [Token]
 tokenize = tokenizeSymbols . separateSymbols
@@ -29,4 +32,14 @@ tokenizeSymbol "\n" = Next
 tokenizeSymbol ";"  = Next
 tokenizeSymbol x    = case (readMaybe . T.unpack) x of
   Just x  -> IntT x
-  Nothing -> Word x
+  Nothing -> case x of
+    "+"      -> (Function . BuiltIn . Inline) Add
+    "-"      -> (Function . BuiltIn . Inline) Subtract
+    "*"      -> (Function . BuiltIn . Inline) Multiply
+    "/"      -> (Function . BuiltIn . Inline) Divide
+    "OR"     -> (Function . BuiltIn . Inline) Or
+    "AND"    -> (Function . BuiltIn . Inline) And
+    "NOT"    -> (Function . BuiltIn . Inline) Not
+    "INPUT"  -> (Function . BuiltIn . Normal) Input
+    "OUTPUT" -> (Function . BuiltIn . Normal) Output
+    _        -> if (isUpper . T.head) x then Function (Other x) else Word x

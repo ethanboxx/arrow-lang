@@ -1,6 +1,7 @@
 module Lib
   ( tokenize
   , toMLRInstruction
+  , toMLRExpr
   )
 where
 
@@ -10,7 +11,7 @@ import qualified Data.Text                     as T
 type MLR = [Instruction]
 data Instruction = VarAssignmentI VarAssignment deriving (Show)
 data VarAssignment = VarAssignment {_varName :: T.Text, _expr :: Expr} deriving (Show)
-data Expr = Expr deriving (Show)
+data Expr = Func {_funcName :: T.Text}  deriving (Show)
 
 toMLRInstruction :: [Token] -> Either String Instruction
 toMLRInstruction (Word x : VarAssignmentT : xs) = do
@@ -18,4 +19,4 @@ toMLRInstruction (Word x : VarAssignmentT : xs) = do
   Right (VarAssignmentI (VarAssignment { _varName = x, _expr = expr }))
 
 toMLRExpr :: [Token] -> Either String Expr
-toMLRExpr x = Right Expr
+toMLRExpr (Word x : xs) = Right Func { _funcName = x }
