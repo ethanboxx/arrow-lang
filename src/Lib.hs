@@ -9,9 +9,9 @@ import           Tokenize
 import qualified Data.Text                     as T
 
 type MLR = [Instruction]
-data Instruction = VarAssignmentI VarAssignment deriving (Show)
+newtype Instruction = VarAssignmentI VarAssignment deriving (Show)
 data VarAssignment = VarAssignment {_varName :: T.Text, _expr :: Expr} deriving (Show)
-data Expr = Func {_funcName :: T.Text}  deriving (Show)
+newtype Expr = Func {_funcName :: T.Text}  deriving (Show)
 
 toMLRInstruction :: [Token] -> Either String Instruction
 toMLRInstruction (Word x : VarAssignmentT : xs) = do

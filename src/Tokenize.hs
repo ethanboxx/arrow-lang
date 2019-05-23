@@ -30,7 +30,7 @@ tokenizeSymbol "if" = If
 tokenizeSymbol "<-" = VarAssignmentT
 tokenizeSymbol "\n" = Next
 tokenizeSymbol ";"  = Next
-tokenizeSymbol x    = case (readMaybe . T.unpack) x of
+tokenizeSymbol x    = case readMaybe $ T.unpack x of
   Just a  -> IntT a
   Nothing -> case x of
     "+"      -> Function $ BuiltIn $ Inline Add
