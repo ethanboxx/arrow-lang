@@ -33,13 +33,13 @@ tokenizeSymbol ";"  = Next
 tokenizeSymbol x    = case (readMaybe . T.unpack) x of
   Just x  -> IntT x
   Nothing -> case x of
-    "+"      -> (Function . BuiltIn . Inline) Add
-    "-"      -> (Function . BuiltIn . Inline) Subtract
-    "*"      -> (Function . BuiltIn . Inline) Multiply
-    "/"      -> (Function . BuiltIn . Inline) Divide
-    "OR"     -> (Function . BuiltIn . Inline) Or
-    "AND"    -> (Function . BuiltIn . Inline) And
-    "NOT"    -> (Function . BuiltIn . Inline) Not
-    "INPUT"  -> (Function . BuiltIn . Normal) Input
-    "OUTPUT" -> (Function . BuiltIn . Normal) Output
-    _        -> if (isUpper . T.head) x then Function (Other x) else Word x
+    "+"      -> Function $ BuiltIn $ Inline Add
+    "-"      -> Function $ BuiltIn $ Inline Subtract
+    "*"      -> Function $ BuiltIn $ Inline Multiply
+    "/"      -> Function $ BuiltIn $ Inline Divide
+    "OR"     -> Function $ BuiltIn $ Inline Or
+    "AND"    -> Function $ BuiltIn $ Inline And
+    "NOT"    -> Function $ BuiltIn $ Inline Not
+    "INPUT"  -> Function $ BuiltIn $ Normal Input
+    "OUTPUT" -> Function $ BuiltIn $ Normal Output
+    _        -> if isUpper $ T.head x then Function $ Other x else Word x
