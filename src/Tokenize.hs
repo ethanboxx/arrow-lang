@@ -31,7 +31,7 @@ tokenizeSymbol "<-" = VarAssignmentT
 tokenizeSymbol "\n" = Next
 tokenizeSymbol ";"  = Next
 tokenizeSymbol x    = case (readMaybe . T.unpack) x of
-  Just x  -> IntT x
+  Just a  -> IntT a
   Nothing -> case x of
     "+"      -> Function $ BuiltIn $ Inline Add
     "-"      -> Function $ BuiltIn $ Inline Subtract
