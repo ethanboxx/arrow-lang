@@ -5,9 +5,10 @@ module Tokenize
 where
 
 import qualified Data.Text                     as T
+import           Text.Read                    
 import           SeparateSymbols
 
-data Token = Word T.Text |  If | VarAssignmentT | Next deriving (Show)
+data Token = Word T.Text | IntT  Integer |  If | VarAssignmentT | Next deriving (Show)
 
 data BuiltInFunc = Inline | Normal
 
@@ -26,5 +27,6 @@ tokenizeSymbol "if" = If
 tokenizeSymbol "<-" = VarAssignmentT
 tokenizeSymbol "\n" = Next
 tokenizeSymbol ";"  = Next
-tokenizeSymbol x    = Word x
-
+tokenizeSymbol x    = case (readMaybe . T.unpack) x of
+  Just x  -> IntT x
+  Nothing -> Word x
