@@ -9,11 +9,8 @@ separateSymbols :: T.Text -> [T.Text]
 separateSymbols x =
   ( filter (/= "")
     . filter (/= " ")
-    . moveOut "("
-    . moveOut ")"
-    . moveOut "<"
-    . moveOut ">"
     . moveOut " "
+    . moveOut "<-"
     . moveOut "if"
     . moveOut "\n"
     . moveOut ";"

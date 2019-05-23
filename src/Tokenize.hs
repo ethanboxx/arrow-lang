@@ -1,12 +1,18 @@
 module Tokenize
   ( tokenize
+  , Token(VarAssignmentT, Word)
   )
 where
 
 import qualified Data.Text                     as T
 import           SeparateSymbols
 
-data Token = Word T.Text | LeftBracket | RightBracket | If | ArrowRight | ArrowLeft | Next deriving (Show)
+data Token = Word T.Text |  If | VarAssignmentT | Next deriving (Show)
+
+data BuiltInFunc = Inline | Normal
+
+data BuiltInFuncNormal = Input | Output
+data BuiltInFuncInline = Add | Multiply | Divide | Subtract
 
 tokenize :: T.Text -> [Token]
 tokenize = tokenizeSymbols . separateSymbols
@@ -16,11 +22,8 @@ tokenizeSymbols = map tokenizeSymbol
 
 
 tokenizeSymbol :: T.Text -> Token
-tokenizeSymbol "("  = LeftBracket
-tokenizeSymbol ")"  = RightBracket
 tokenizeSymbol "if" = If
-tokenizeSymbol "<"  = ArrowLeft
-tokenizeSymbol ">"  = ArrowRight
+tokenizeSymbol "<-" = VarAssignmentT
 tokenizeSymbol "\n" = Next
 tokenizeSymbol ";"  = Next
 tokenizeSymbol x    = Word x
